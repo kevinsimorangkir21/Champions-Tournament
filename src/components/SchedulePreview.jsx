@@ -48,11 +48,11 @@ export default function SchedulePreview() {
 
   return (
     <section className="py-24 bg-[#0a0a0a] text-white">
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-5xl mx-auto px-4 md:px-6">
 
         {/* HEADER */}
         <div className="mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold">
+          <h2 className="text-2xl md:text-4xl font-bold">
             Match Schedule
           </h2>
           <p className="text-white/50 mt-1 text-sm">
@@ -65,7 +65,6 @@ export default function SchedulePreview() {
           {todayData.matches.map((m, i) => {
             const status = getStatus(m.time, todayData.date);
 
-            const isDraw = m.score[0] === m.score[1];
             const winnerA = m.score[0] > m.score[1];
             const winnerB = m.score[1] > m.score[0];
 
@@ -76,75 +75,95 @@ export default function SchedulePreview() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 className="
-                  grid grid-cols-[1fr_auto_1fr_auto]
+                  flex flex-col md:grid
+                  md:grid-cols-[1fr_auto_1fr_auto]
+                  gap-4 md:gap-0
                   items-center
                   bg-white/5 border border-white/10
-                  rounded-xl px-5 py-4
+                  rounded-xl px-4 md:px-5 py-3 md:py-4
                   hover:bg-white/10 transition
                 "
               >
 
-                {/* TEAM A */}
-                <div className="flex items-center gap-3">
-                  <img src={logos[m.teamA]} className="w-7 h-7" />
-                  <span
-                    className={`
-                      ${winnerA ? "text-green-400 font-bold" : ""}
-                    `}
-                  >
-                    {m.teamA}
-                  </span>
-                </div>
+                {/* 🔝 MOBILE TOP */}
+                <div className="flex justify-between items-center w-full md:hidden text-xs text-white/50">
+                  <span>{m.time}</span>
 
-                {/* SCORE */}
-                <div className="text-center px-6">
-                  {status === "UPCOMING" ? (
-                    <span className="text-white/40 text-sm">
-                      {m.time}
-                    </span>
-                  ) : (
-                    <motion.span
-                      key={`${m.score[0]}-${m.score[1]}`}
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.25 }}
-                      className="text-xl font-bold tracking-wider"
-                    >
-                      {m.score[0]} - {m.score[1]}
-                    </motion.span>
-                  )}
-                </div>
-
-                {/* TEAM B */}
-                <div className="flex items-center justify-end gap-3">
-                  <span
-                    className={`
-                      ${winnerB ? "text-green-400 font-bold" : ""}
-                    `}
-                  >
-                    {m.teamB}
-                  </span>
-                  <img src={logos[m.teamB]} className="w-7 h-7" />
-                </div>
-
-                {/* STATUS */}
-                <div className="ml-6 text-right">
                   {status === "LIVE" && (
-                    <span className="flex items-center gap-1 text-red-500 text-xs font-semibold justify-end">
+                    <span className="flex items-center gap-1 text-red-500 font-semibold">
                       <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                       LIVE
                     </span>
                   )}
                   {status === "UPCOMING" && (
-                    <span className="text-yellow-400 text-xs font-semibold">
+                    <span className="text-yellow-400 font-semibold">
                       UPCOMING
                     </span>
                   )}
                   {status === "FINISHED" && (
-                    <span className="text-green-400 text-xs font-semibold">
+                    <span className="text-green-400 font-semibold">
                       FINISHED
                     </span>
                   )}
+                </div>
+
+                {/* MAIN */}
+                <div className="flex items-center justify-between w-full md:contents">
+
+                  {/* TEAM A */}
+                  <div className="flex items-center gap-2">
+                    <img src={logos[m.teamA]} className="w-6 h-6 md:w-7 md:h-7" />
+                    <span className={winnerA ? "text-green-400 font-bold" : ""}>
+                      {m.teamA}
+                    </span>
+                  </div>
+
+                  {/* SCORE */}
+                  <div className="text-center">
+                    {status === "UPCOMING" ? (
+                      <span className="text-white/40 text-sm hidden md:block">
+                        {m.time}
+                      </span>
+                    ) : (
+                      <motion.span
+                        key={`${m.score[0]}-${m.score[1]}`}
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-lg md:text-xl font-bold"
+                      >
+                        {m.score[0]} - {m.score[1]}
+                      </motion.span>
+                    )}
+                  </div>
+
+                  {/* TEAM B */}
+                  <div className="flex items-center gap-2 justify-end">
+                    <span className={winnerB ? "text-green-400 font-bold" : ""}>
+                      {m.teamB}
+                    </span>
+                    <img src={logos[m.teamB]} className="w-6 h-6 md:w-7 md:h-7" />
+                  </div>
+
+                  {/* DESKTOP STATUS */}
+                  <div className="hidden md:block text-right ml-6">
+                    {status === "LIVE" && (
+                      <span className="flex items-center gap-1 text-red-500 text-xs font-semibold justify-end">
+                        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                        LIVE
+                      </span>
+                    )}
+                    {status === "UPCOMING" && (
+                      <span className="text-yellow-400 text-xs font-semibold">
+                        UPCOMING
+                      </span>
+                    )}
+                    {status === "FINISHED" && (
+                      <span className="text-green-400 text-xs font-semibold">
+                        FINISHED
+                      </span>
+                    )}
+                  </div>
+
                 </div>
 
               </motion.div>
