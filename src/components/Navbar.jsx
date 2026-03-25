@@ -55,20 +55,19 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      {/* 🔥 CONTAINER */}
-      <div className="max-w-7xl mx-auto flex md:grid md:grid-cols-3 items-center justify-between px-4 md:px-10 py-3 md:py-4">
+      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center px-6 md:px-10 py-4">
 
-        {/* 🔹 LOGO */}
+        {/* 🔹 LEFT (LOGO ONLY) */}
         <Link href="/" className="flex items-center">
           <motion.img
             src="/CT26.png"
             alt="Logo"
-            className="h-6 md:h-8 w-auto"
+            className="w-30 h-"
             whileHover={{ rotate: 10, scale: 1.1 }}
           />
         </Link>
 
-        {/* 🔹 MENU DESKTOP */}
+        {/* 🔹 CENTER (MENU) */}
         <nav className="hidden md:flex justify-center items-center gap-8 text-sm font-medium">
           {navLinks.map((link) => {
             const active = pathname === link.href;
@@ -94,7 +93,7 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* 🔹 RIGHT (TIME DESKTOP) */}
+        {/* 🔹 RIGHT (TIME) */}
         <div className="hidden md:flex justify-end">
           <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
             
@@ -110,22 +109,14 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* 🔹 MOBILE RIGHT */}
-        <div className="flex md:hidden items-center gap-3">
-
-          {/* TIME MINI */}
-          <span className="text-[11px] text-white/60">
-            {time.split(",")[1]}
-          </span>
-
-          {/* MENU BUTTON */}
+        {/* 🔹 MOBILE BUTTON */}
+        <div className="flex md:hidden justify-end">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 rounded-lg bg-white/10 hover:bg-white/20 transition"
           >
             {menuOpen ? "✕" : "☰"}
           </button>
-
         </div>
       </div>
 
@@ -157,7 +148,7 @@ export default function Navbar() {
                 );
               })}
 
-              {/* TIME MOBILE FULL */}
+              {/* TIME MOBILE */}
               <div className="pt-3 border-t border-white/10 flex justify-center">
                 <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full">
                   
