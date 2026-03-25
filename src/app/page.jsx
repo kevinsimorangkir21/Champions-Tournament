@@ -7,7 +7,6 @@ import SchedulePreview from "@/components/SchedulePreview";
 import Teams from "@/components/Teams";
 import BracketPreview from "@/components/BracketPreview";
 import News from "@/components/News";
-import InstagramPosts from "@/components/InstagramPosts";
 
 export default function Home() {
   return (
@@ -16,7 +15,6 @@ export default function Home() {
       <BracketPreview />
       <SchedulePreview />
       <Teams />
-      <InstagramPosts />
       <News />
     </>
   );
