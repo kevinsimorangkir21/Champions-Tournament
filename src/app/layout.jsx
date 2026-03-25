@@ -4,7 +4,9 @@ import Footer from "@/components/Footer";
 import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 
 export const metadata = {
-  title: "MagangHub — Membangun Talenta Muda Indonesia",
+  title: "Champions Tournament 2026",
+  description: "The ultimate FIFA tournament for all players.",
+  favicon: "/favicon.ico",
 };
 
 export default function RootLayout({ children }) {
