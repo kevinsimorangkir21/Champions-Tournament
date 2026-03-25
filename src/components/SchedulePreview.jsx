@@ -1,0 +1,158 @@
+"use client";
+import { motion } from "framer-motion";
+
+const logos = {
+  Barcelona: "/teams/barcelona.png",
+  "Real Madrid": "/teams/realmadrid.png",
+  Arsenal: "/teams/arsenal.png",
+  Dortmund: "/teams/dortmund.png",
+  PSV: "/teams/psv.png",
+  "Aston Villa": "/teams/villa.png",
+  Leverkusen: "/teams/leverkusen.png",
+  Inter: "/teams/inter.png",
+  "Man City": "/teams/mancity.png",
+  PSG: "/teams/psg.png",
+  Atlético: "/teams/atletico.png",
+  Ajax: "/teams/ajax.png",
+  Bayern: "/teams/bayern.png",
+  "Al Nassr": "/teams/alnassr.png",
+  Marseille: "/teams/marseille.png",
+  "RC Lens": "/teams/lens.png",
+};
+
+const schedule = [
+  {
+    date: "2026-03-31",
+    label: "DAY 1",
+    matches: [
+      { teamA: "Barcelona", teamB: "PSV", time: "16:00", score: [0, 0] },
+      { teamA: "Real Madrid", teamB: "Inter", time: "16:00", score: [0, 0] },
+      { teamA: "Arsenal", teamB: "Dortmund", time: "18:00", score: [0, 0] },
+      { teamA: "Aston Villa", teamB: "Leverkusen", time: "18:00", score: [0, 0] },
+    ],
+  },
+];
+
+function getStatus(time, date) {
+  const now = new Date();
+  const match = new Date(`${date}T${time}:00`);
+  const end = new Date(match.getTime() + 2 * 60 * 60 * 1000);
+
+  if (now < match) return "UPCOMING";
+  if (now >= match && now <= end) return "LIVE";
+  return "FINISHED";
+}
+
+export default function SchedulePreview() {
+  const todayData = schedule[0];
+
+  return (
+    <section className="py-24 bg-[#0a0a0a] text-white">
+      <div className="max-w-5xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="mb-10">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            Match Schedule
+          </h2>
+          <p className="text-white/50 mt-1 text-sm">
+            {todayData.label}
+          </p>
+        </div>
+
+        {/* MATCH LIST */}
+        <div className="space-y-4">
+          {todayData.matches.map((m, i) => {
+            const status = getStatus(m.time, todayData.date);
+
+            const isDraw = m.score[0] === m.score[1];
+            const winnerA = m.score[0] > m.score[1];
+            const winnerB = m.score[1] > m.score[0];
+
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: i * 0.05 }}
+                className="
+                  grid grid-cols-[1fr_auto_1fr_auto]
+                  items-center
+                  bg-white/5 border border-white/10
+                  rounded-xl px-5 py-4
+                  hover:bg-white/10 transition
+                "
+              >
+
+                {/* TEAM A */}
+                <div className="flex items-center gap-3">
+                  <img src={logos[m.teamA]} className="w-7 h-7" />
+                  <span
+                    className={`
+                      ${winnerA ? "text-green-400 font-bold" : ""}
+                    `}
+                  >
+                    {m.teamA}
+                  </span>
+                </div>
+
+                {/* SCORE */}
+                <div className="text-center px-6">
+                  {status === "UPCOMING" ? (
+                    <span className="text-white/40 text-sm">
+                      {m.time}
+                    </span>
+                  ) : (
+                    <motion.span
+                      key={`${m.score[0]}-${m.score[1]}`}
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.25 }}
+                      className="text-xl font-bold tracking-wider"
+                    >
+                      {m.score[0]} - {m.score[1]}
+                    </motion.span>
+                  )}
+                </div>
+
+                {/* TEAM B */}
+                <div className="flex items-center justify-end gap-3">
+                  <span
+                    className={`
+                      ${winnerB ? "text-green-400 font-bold" : ""}
+                    `}
+                  >
+                    {m.teamB}
+                  </span>
+                  <img src={logos[m.teamB]} className="w-7 h-7" />
+                </div>
+
+                {/* STATUS */}
+                <div className="ml-6 text-right">
+                  {status === "LIVE" && (
+                    <span className="flex items-center gap-1 text-red-500 text-xs font-semibold justify-end">
+                      <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                      LIVE
+                    </span>
+                  )}
+                  {status === "UPCOMING" && (
+                    <span className="text-yellow-400 text-xs font-semibold">
+                      UPCOMING
+                    </span>
+                  )}
+                  {status === "FINISHED" && (
+                    <span className="text-green-400 text-xs font-semibold">
+                      FINISHED
+                    </span>
+                  )}
+                </div>
+
+              </motion.div>
+            );
+          })}
+        </div>
+
+      </div>
+    </section>
+  );
+}
