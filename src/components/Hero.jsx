@@ -22,10 +22,10 @@ const logos = [
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-[#0a0a0a] text-white">
+    <section className="relative isolate overflow-hidden bg-[#0a0a0a] text-white">
 
       {/* 🔥 BACKGROUND LOGO GRID */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden -z-10">
         <div
           className="
             absolute top-1/2 left-1/2
@@ -47,20 +47,19 @@ export default function Hero() {
       </div>
 
       {/* 🔥 DARK OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black -z-10"></div>
 
       {/* 🔥 GLOW */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.15 }}
         transition={{ duration: 2 }}
-        className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-white rounded-full blur-[120px]"
+        className="absolute -top-20 -right-20 w-[400px] h-[400px] bg-white rounded-full blur-[120px] -z-10"
       />
 
       {/* 🔹 CONTENT */}
       <div className="max-w-6xl mx-auto px-6 py-32 md:py-40 relative z-10 text-center">
 
-        {/* 🔴 LIVE */}
         <div className="flex justify-center mb-6">
           <span className="flex items-center gap-2 text-red-500 text-sm font-semibold">
             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
@@ -68,7 +67,6 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* 🏆 TITLE */}
         <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
           CHAMPIONS
           <br />
@@ -77,7 +75,6 @@ export default function Hero() {
           </span>
         </h1>
 
-        {/* 🔥 SLOGAN */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -87,7 +84,6 @@ export default function Hero() {
           #OneGameOneChampions
         </motion.p>
 
-        {/* 📄 TEXT */}
         <p className="mt-6 text-gray-400 max-w-2xl mx-auto text-lg">
           The ultimate FIFA tournament for all players. Witness the battle for
           glory as top teams clash on the virtual pitch. Who will be crowned
@@ -96,7 +92,7 @@ export default function Hero() {
       </div>
 
       {/* 🔻 FADE */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent -z-10"></div>
     </section>
   );
 }
