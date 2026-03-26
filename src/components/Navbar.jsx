@@ -49,10 +49,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 w-full z-[9999] transition-all duration-500 ${
         scrolled
           ? "bg-black/80 backdrop-blur-xl border-b border-white/10"
-          : "bg-transparent"
+          : "bg-gradient-to-b from-black/80 via-black/40 to-transparent backdrop-blur-md"
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-10 py-3 md:py-4">
@@ -78,7 +78,7 @@ export default function Navbar() {
                 className={`relative transition ${
                   active
                     ? "text-white"
-                    : "text-white/60 hover:text-white"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -94,21 +94,21 @@ export default function Navbar() {
         </nav>
 
         {/* 🔹 RIGHT INFO (DESKTOP) */}
-        <div className="hidden md:flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
+        <div className="hidden md:flex items-center gap-3 bg-white/10 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
           <span className="flex items-center gap-1 text-red-500 text-xs font-semibold">
             <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             LIVE
           </span>
 
-          <span className="text-white/80 text-sm font-medium">
-            {time} <span className="text-white/40">CEST</span>
+          <span className="text-white/90 text-sm font-medium">
+            {time} <span className="text-white/50">CEST</span>
           </span>
         </div>
 
         {/* 🔹 MOBILE BUTTON */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition"
+          className="md:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-white"
         >
           {menuOpen ? "✕" : "☰"}
         </button>
@@ -135,7 +135,7 @@ export default function Navbar() {
                     className={`text-lg transition ${
                       active
                         ? "text-white"
-                        : "text-white/60 hover:text-white"
+                        : "text-white/80 hover:text-white"
                     }`}
                   >
                     {link.label}
@@ -145,17 +145,15 @@ export default function Navbar() {
 
               {/* TIME */}
               <div className="pt-4 border-t border-white/10 flex justify-center">
-                <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full">
-
+                <div className="flex items-center gap-3 bg-white/10 border border-white/10 px-4 py-2 rounded-full">
                   <span className="flex items-center gap-1 text-red-500 text-xs font-semibold">
                     <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                     LIVE
                   </span>
 
-                  <span className="text-white/70 text-sm">
-                    {time} <span className="text-white/40">CEST</span>
+                  <span className="text-white/80 text-sm">
+                    {time} <span className="text-white/50">CEST</span>
                   </span>
-
                 </div>
               </div>
 
