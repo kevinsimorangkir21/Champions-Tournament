@@ -1,37 +1,78 @@
 @import "tailwindcss";
-@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
   /* 🎯 PRIMARY */
-  --primary: #35163c;
-  --primary-light: #4b1f55;
-  --primary-dark: #240f29;
+  --primary: #7c3aed;
+  /* lebih hidup (ungu modern) */
+  --primary-light: #a78bfa;
+  --primary-dark: #4c1d95;
 
   /* 🎯 BACKGROUND (FULL DARK) */
-  --background: #0f0a14;
-  --background-soft: #1a1220;
+  --background: #0a0a0f;
+  /* lebih deep black */
+  --background-soft: #11111a;
+  --background-elevated: #1a1a26;
 
   /* 🎯 TEXT */
-  --foreground: #f5f5f5;
-  --muted: #a1a1aa;
+  --foreground: #f8fafc;
+  --muted: #9ca3af;
+
+  /* 🎯 BORDER & UI */
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.05);
 
   /* SYSTEM */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 }
 
-/* ❌ HAPUS LIGHT MODE */
+/* GLOBAL */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* OPTIONAL UTIL */
+/* 🎯 UTIL CUSTOM */
 .bg-primary {
   background: var(--primary);
 }
 
 .text-primary {
   color: var(--primary);
+}
+
+.bg-soft {
+  background: var(--background-soft);
+}
+
+.bg-elevated {
+  background: var(--background-elevated);
+}
+
+.border-soft {
+  border-color: var(--border);
+}
+
+/* ✨ GLASS EFFECT (opsional buat navbar/card) */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* 🔥 SCROLLBAR (biar makin premium) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
 }
