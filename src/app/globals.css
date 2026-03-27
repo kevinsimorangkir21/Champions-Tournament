@@ -2,25 +2,24 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
-  /* 🎯 PRIMARY */
-  --primary: #7c3aed;
-  /* lebih hidup (ungu modern) */
-  --primary-light: #a78bfa;
-  --primary-dark: #4c1d95;
+  /* 🎯 PURE BLACK BASE */
+  --background: #000000;
+  --background-soft: #050505;
+  --background-elevated: #0a0a0a;
 
-  /* 🎯 BACKGROUND (FULL DARK) */
-  --background: #0a0a0f;
-  /* lebih deep black */
-  --background-soft: #11111a;
-  --background-elevated: #1a1a26;
+  /* 🎯 GLASS (TRANSPARENT FEEL) */
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-strong: rgba(255, 255, 255, 0.08);
 
   /* 🎯 TEXT */
-  --foreground: #f8fafc;
-  --muted: #9ca3af;
+  --foreground: #ffffff;
+  --muted: #a1a1aa;
 
-  /* 🎯 BORDER & UI */
+  /* 🎯 BORDER */
   --border: rgba(255, 255, 255, 0.08);
-  --glass: rgba(255, 255, 255, 0.05);
+
+  /* 🎯 ACCENT (optional biar gak flat) */
+  --accent: #ffffff;
 
   /* SYSTEM */
   --color-background: var(--background);
@@ -35,15 +34,20 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 🎯 UTIL CUSTOM */
-.bg-primary {
-  background: var(--primary);
+/* ✨ GLASS EFFECT */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
 }
 
-.text-primary {
-  color: var(--primary);
+.glass-strong {
+  background: var(--glass-strong);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
 }
 
+/* 🎯 UTIL */
 .bg-soft {
   background: var(--background-soft);
 }
@@ -56,23 +60,20 @@ body {
   border-color: var(--border);
 }
 
-/* ✨ GLASS EFFECT (opsional buat navbar/card) */
-.glass {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
+.text-muted {
+  color: var(--muted);
 }
 
-/* 🔥 SCROLLBAR (biar makin premium) */
+/* 🔥 SCROLLBAR */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: #000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
