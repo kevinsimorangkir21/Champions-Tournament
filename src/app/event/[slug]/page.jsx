@@ -1,7 +1,8 @@
 "use client";
 import { useParams } from "next/navigation";
+import { Trophy, Star, Medal } from "lucide-react";
 
-// 🔥 DATA (SIMULASI)
+// 🔥 DATA
 const events = {
   "fifa-2025": {
     title: "FIFA Tournament 2025",
@@ -58,9 +59,9 @@ export default function EventDetail() {
   if (!event) return <div className="text-white p-10">Not Found</div>;
 
   return (
-    <section className="bg-[#0a0a0a] text-white min-h-screen">
+    <section className="bg-black text-white min-h-screen">
 
-      {/* 🖼️ HERO */}
+      {/* HERO */}
       <div className="relative h-[300px]">
         <img src={event.image} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/60" />
@@ -75,24 +76,31 @@ export default function EventDetail() {
 
         {/* 🏆 WINNER & MVP */}
         <div className="grid md:grid-cols-2 gap-6">
-          
-          <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <p className="text-white/50 text-sm">Champion</p>
-            <h2 className="text-2xl font-bold mt-1">{event.winner}</h2>
-            <span className="text-3xl">🏆</span>
+
+          {/* CHAMPION */}
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 flex items-center justify-between">
+            <div>
+              <p className="text-white/50 text-sm">Champion</p>
+              <h2 className="text-2xl font-bold mt-1">{event.winner}</h2>
+            </div>
+            <Trophy className="w-8 h-8 text-yellow-400" />
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <p className="text-white/50 text-sm">MVP</p>
-            <h2 className="text-2xl font-bold mt-1">{event.mvp}</h2>
-            <span className="text-3xl">⭐</span>
+          {/* MVP */}
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6 flex items-center justify-between">
+            <div>
+              <p className="text-white/50 text-sm">MVP</p>
+              <h2 className="text-2xl font-bold mt-1">{event.mvp}</h2>
+            </div>
+            <Star className="w-8 h-8 text-yellow-300" />
           </div>
 
         </div>
 
-        {/* 📊 KLASEMEN */}
+        {/* 📊 GROUP STAGE */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <Medal className="w-5 h-5 text-white/60" />
             Final Standings
           </h2>
 
@@ -100,7 +108,7 @@ export default function EventDetail() {
             {event.groups.map((group, i) => (
               <div
                 key={i}
-                className="bg-white/5 border border-white/10 rounded-xl p-4"
+                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-4"
               >
                 <h3 className="text-sm text-white/40 mb-3">
                   {group.name}
@@ -109,8 +117,12 @@ export default function EventDetail() {
                 {group.table.map((t, idx) => (
                   <div
                     key={idx}
-                    className={`flex justify-between px-3 py-2 ${
-                      idx < 2 ? "bg-green-500/10" : "text-white/60"
+                    className={`flex justify-between px-3 py-2 rounded ${
+                      idx === 0
+                        ? "bg-yellow-500/10 text-white"
+                        : idx === 1
+                        ? "bg-white/5"
+                        : "text-white/50"
                     }`}
                   >
                     <span>{t.team}</span>
@@ -124,7 +136,8 @@ export default function EventDetail() {
 
         {/* 🏆 BRACKET */}
         <div>
-          <h2 className="text-xl font-semibold mb-6">
+          <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
+            <Trophy className="w-5 h-5 text-white/60" />
             Playoff Bracket
           </h2>
 
@@ -135,7 +148,7 @@ export default function EventDetail() {
               <h3 className="text-white/40 text-xs">Quarter Final</h3>
               {event.bracket.qf.map((m, i) => (
                 <div key={i} className="bg-white/5 p-3 rounded-lg text-sm">
-                  {m.a} {m.score} {m.b}
+                  {m.a} <span className="font-bold">{m.score}</span> {m.b}
                 </div>
               ))}
             </div>
@@ -145,7 +158,7 @@ export default function EventDetail() {
               <h3 className="text-white/40 text-xs">Semi Final</h3>
               {event.bracket.sf.map((m, i) => (
                 <div key={i} className="bg-white/5 p-3 rounded-lg text-sm">
-                  {m.a} {m.score} {m.b}
+                  {m.a} <span className="font-bold">{m.score}</span> {m.b}
                 </div>
               ))}
             </div>

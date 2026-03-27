@@ -1,7 +1,12 @@
 import { notFound } from "next/navigation";
+import { Calendar, Tag } from "lucide-react";
 
+// 🔥 FETCH (PRODUCTION SAFE)
 async function getNews(slug) {
-  const res = await fetch("http://localhost:3000/api/news");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/news`, {
+    cache: "no-store",
+  });
+
   const data = await res.json();
   return data.find((n) => n.slug === slug);
 }
@@ -12,30 +17,49 @@ export default async function NewsDetail({ params }) {
   if (!news) return notFound();
 
   return (
-    <section className="bg-[#0a0a0a] text-white min-h-screen">
+    <section className="bg-black text-white min-h-screen">
 
-      {/* IMAGE */}
-      <div className="h-[300px]">
-        <img src={news.image} className="w-full h-full object-cover" />
+      {/* 🖼️ HERO IMAGE */}
+      <div className="relative h-[300px] md:h-[400px]">
+        <img
+          src={news.image}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
+      {/* CONTENT */}
       <div className="max-w-3xl mx-auto px-6 py-12">
 
-        <span className="text-green-400 text-sm">
-          {news.category}
-        </span>
+        {/* META */}
+        <div className="flex flex-wrap items-center gap-4 text-sm text-white/60">
 
-        <h1 className="text-3xl font-bold mt-2">
+          {/* CATEGORY */}
+          <span className="flex items-center gap-1 text-green-400">
+            <Tag className="w-4 h-4" />
+            {news.category}
+          </span>
+
+          {/* DATE */}
+          <span className="flex items-center gap-1">
+            <Calendar className="w-4 h-4" />
+            {news.date}
+          </span>
+
+        </div>
+
+        {/* TITLE */}
+        <h1 className="text-3xl md:text-4xl font-bold mt-4 leading-tight">
           {news.title}
         </h1>
 
-        <p className="text-white/50 text-sm mt-2">
-          {news.date}
-        </p>
+        {/* DIVIDER */}
+        <div className="h-px bg-white/10 my-6" />
 
-        <p className="mt-6 text-white/80 leading-relaxed">
-          {news.content}
-        </p>
+        {/* CONTENT */}
+        <div className="space-y-4 text-white/80 leading-relaxed text-[15px] md:text-base">
+          <p>{news.content}</p>
+        </div>
 
       </div>
     </section>

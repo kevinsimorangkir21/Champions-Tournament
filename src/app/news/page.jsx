@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Calendar, Tag } from "lucide-react";
 
 export default function NewsPage() {
   const [news, setNews] = useState([]);
@@ -21,14 +22,25 @@ export default function NewsPage() {
       : news.filter((n) => n.category === filter);
 
   return (
-    <section className="py-24 bg-[#0a0a0a] text-white min-h-screen">
+    <section className="relative py-24 bg-black text-white min-h-screen overflow-hidden">
+
+      {/* 🔥 BACKGROUND DEPTH */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
+
       <div className="max-w-6xl mx-auto px-6">
 
         {/* HEADER */}
-        <h1 className="text-4xl font-bold mb-6">News</h1>
+        <div className="mb-10">
+          <h1 className="text-3xl md:text-4xl font-bold">
+            News
+          </h1>
+          <p className="text-white/50 mt-2">
+            Latest updates from the tournament
+          </p>
+        </div>
 
         {/* 🔥 FILTER */}
-        <div className="flex gap-3 mb-8 flex-wrap">
+        <div className="flex gap-3 mb-10 flex-wrap">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -36,37 +48,65 @@ export default function NewsPage() {
                 setFilter(cat);
                 setVisible(3);
               }}
-              className={`px-4 py-2 rounded-full text-sm ${
-                filter === cat
-                  ? "bg-white text-black"
-                  : "bg-white/10 text-white/70"
-              }`}
+              className={`
+                px-4 py-2 rounded-full text-sm transition
+                ${
+                  filter === cat
+                    ? "bg-white text-black font-medium"
+                    : "bg-white/5 text-white/60 hover:bg-white/10"
+                }
+              `}
             >
               {cat}
             </button>
           ))}
         </div>
 
-        {/* 📰 LIST */}
+        {/* 📰 GRID */}
         <div className="grid md:grid-cols-3 gap-6">
           {filtered.slice(0, visible).map((item, i) => (
             <Link key={i} href={`/news/${item.slug}`}>
-              <div className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 cursor-pointer">
+              <div
+                className="
+                  group
+                  bg-white/5 backdrop-blur-xl
+                  border border-white/10
+                  rounded-2xl overflow-hidden
+                  hover:bg-white/10
+                  hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                  transition-all duration-300
+                  cursor-pointer
+                "
+              >
 
-                <img src={item.image} className="h-40 w-full object-cover" />
+                {/* IMAGE */}
+                <div className="h-40 overflow-hidden">
+                  <img
+                    src={item.image}
+                    className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                  />
+                </div>
 
-                <div className="p-4">
-                  <span className="text-green-400 text-xs">
+                {/* CONTENT */}
+                <div className="p-5">
+
+                  {/* CATEGORY */}
+                  <span className="flex items-center gap-1 text-green-400 text-xs">
+                    <Tag className="w-3 h-3" />
                     {item.category}
                   </span>
 
-                  <h3 className="mt-2 font-semibold">
+                  {/* TITLE */}
+                  <h3 className="mt-2 font-semibold text-white/80 group-hover:text-white transition">
                     {item.title}
                   </h3>
 
-                  <p className="text-white/50 text-xs mt-2">
+                  {/* DATE */}
+                  <p className="flex items-center gap-1 text-white/40 text-xs mt-3">
+                    <Calendar className="w-3 h-3" />
                     {item.date}
                   </p>
+
                 </div>
 
               </div>
@@ -76,10 +116,15 @@ export default function NewsPage() {
 
         {/* 🔥 LOAD MORE */}
         {visible < filtered.length && (
-          <div className="text-center mt-10">
+          <div className="text-center mt-12">
             <button
               onClick={() => setVisible((prev) => prev + 3)}
-              className="px-6 py-3 bg-white text-black rounded-xl"
+              className="
+                px-6 py-3 rounded-full
+                border border-white/20 text-white text-sm
+                hover:bg-white/10
+                transition
+              "
             >
               Load More
             </button>

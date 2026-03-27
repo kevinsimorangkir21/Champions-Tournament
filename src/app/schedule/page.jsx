@@ -86,9 +86,10 @@ const schedule = [
   },
 ];
 
+// 🔥 FIX WIB
 function getStatus(time, date) {
   const now = new Date();
-  const match = new Date(`${date}T${time}:00`);
+  const match = new Date(`${date}T${time}:00+07:00`);
   const end = new Date(match.getTime() + 2 * 60 * 60 * 1000);
 
   if (now < match) return "UPCOMING";
@@ -100,24 +101,30 @@ export default function SchedulePage() {
   const [tab, setTab] = useState("schedule");
 
   return (
-    <section className="py-20 md:py-24 bg-[#0a0a0a] text-white">
+    <section className="relative py-20 md:py-24 bg-black text-white overflow-hidden">
+
+      {/* 🔥 BACKGROUND DEPTH */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
+
       <div className="max-w-6xl mx-auto px-4 md:px-6">
 
         {/* HEADER */}
         <div className="mb-8 md:mb-10">
-          <h1 className="text-2xl md:text-4xl font-bold">Schedule</h1>
+          <h1 className="text-2xl md:text-4xl font-bold">
+            Match Schedule
+          </h1>
         </div>
 
         {/* TOGGLE */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10 md:mb-12">
-          <div className="bg-white/5 border border-white/10 rounded-full p-1 flex">
+        <div className="flex justify-center mb-12">
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-full p-1 flex">
 
             <button
               onClick={() => setTab("schedule")}
-              className={`px-4 md:px-5 py-2 rounded-full text-xs md:text-sm ${
+              className={`px-5 py-2 rounded-full text-sm ${
                 tab === "schedule"
                   ? "bg-white text-black"
-                  : "text-white/60"
+                  : "text-white/60 hover:text-white"
               }`}
             >
               Group Stage
@@ -126,11 +133,11 @@ export default function SchedulePage() {
             <button
               onClick={() => isGroupFinished && setTab("playoff")}
               disabled={!isGroupFinished}
-              className={`px-4 md:px-5 py-2 rounded-full text-xs md:text-sm ${
+              className={`px-5 py-2 rounded-full text-sm ${
                 tab === "playoff"
                   ? "bg-white text-black"
-                  : "text-white/60"
-              } ${!isGroupFinished ? "opacity-40 cursor-not-allowed" : ""}`}
+                  : "text-white/40"
+              } ${!isGroupFinished ? "cursor-not-allowed" : ""}`}
             >
               Playoff
             </button>
@@ -140,20 +147,24 @@ export default function SchedulePage() {
 
         <AnimatePresence mode="wait">
 
-          {/* ================= SCHEDULE ================= */}
+          {/* ================= GROUP ================= */}
           {tab === "schedule" && (
-            <motion.div key="schedule" className="space-y-8 md:space-y-10">
-
+            <motion.div
+              key="schedule"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="space-y-10"
+            >
               {schedule.map((day, dIdx) => (
                 <div key={dIdx}>
-                  <h2 className="text-white/40 mb-3 md:mb-4 text-sm md:text-base">
+                  <h2 className="text-white/40 mb-4 text-sm uppercase tracking-wider">
                     {day.label}
                   </h2>
 
-                  <div className="space-y-3 md:space-y-4">
+                  <div className="space-y-4">
                     {day.matches.map((m, i) => {
                       const status = getStatus(m.time, day.date);
-
                       const showScore =
                         m.score[0] !== 0 || m.score[1] !== 0;
 
@@ -161,47 +172,43 @@ export default function SchedulePage() {
                       const winnerB = m.score[1] > m.score[0];
 
                       return (
-                        <div
+                        <motion.div
                           key={i}
-                          className="flex flex-col md:grid md:grid-cols-[1fr_auto_1fr_auto] items-center gap-3 md:gap-0 bg-white/5 rounded-xl px-4 md:px-6 py-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          className={`
+                            flex flex-col md:grid
+                            md:grid-cols-[1fr_auto_1fr_auto]
+                            items-center
+                            gap-3 md:gap-0
+                            bg-white/5 backdrop-blur-xl
+                            border border-white/10
+                            rounded-xl px-4 md:px-6 py-4
+                            hover:bg-white/10 transition
+                            ${status === "LIVE" ? "ring-1 ring-red-500/50 bg-red-500/5" : ""}
+                          `}
                         >
 
-                          {/* MOBILE */}
-                          <div className="flex items-center justify-between w-full md:hidden">
-                            <div className="flex items-center gap-2">
-                              <img src={logos[m.teamA]} className="w-6" />
-                              <span className={winnerA ? "text-green-400 font-bold" : ""}>
-                                {m.teamA}
-                              </span>
-                            </div>
-
-                            <span className="text-white/40 text-sm">
-                              {showScore
-                                ? `${m.score[0]} - ${m.score[1]}`
-                                : m.time}
-                            </span>
-
-                            <div className="flex items-center gap-2">
-                              <span className={winnerB ? "text-green-400 font-bold" : ""}>
-                                {m.teamB}
-                              </span>
-                              <img src={logos[m.teamB]} className="w-6" />
-                            </div>
-                          </div>
-
-                          {/* DESKTOP */}
-                          <div className="hidden md:flex items-center gap-3">
-                            <img src={logos[m.teamA]} className="w-7" />
-                            <span className={winnerA ? "text-green-400 font-bold" : ""}>
+                          {/* TEAM A */}
+                          <div className="flex items-center gap-3">
+                            <img src={logos[m.teamA]} className="w-6 md:w-7" />
+                            <span className={winnerA ? "text-green-400 font-semibold" : "text-white/70"}>
                               {m.teamA}
                             </span>
                           </div>
 
-                          <div className="hidden md:block text-center px-6">
+                          {/* SCORE */}
+                          <div className="text-center">
                             {showScore ? (
-                              <span className="text-xl font-bold">
+                              <motion.span
+                                key={`${m.score[0]}-${m.score[1]}`}
+                                initial={{ scale: 0.6, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                className="text-lg md:text-xl font-bold"
+                              >
                                 {m.score[0]} - {m.score[1]}
-                              </span>
+                              </motion.span>
                             ) : (
                               <span className="text-white/40 text-sm">
                                 {m.time}
@@ -209,33 +216,40 @@ export default function SchedulePage() {
                             )}
                           </div>
 
-                          <div className="hidden md:flex items-center justify-end gap-3">
-                            <span className={winnerB ? "text-green-400 font-bold" : ""}>
+                          {/* TEAM B */}
+                          <div className="flex items-center justify-end gap-3">
+                            <span className={winnerB ? "text-green-400 font-semibold" : "text-white/70"}>
                               {m.teamB}
                             </span>
-                            <img src={logos[m.teamB]} className="w-7" />
+                            <img src={logos[m.teamB]} className="w-6 md:w-7" />
                           </div>
 
                           {/* STATUS */}
-                          <div className="text-xs md:text-right w-full md:w-auto">
+                          <div className="text-xs text-right">
                             {status === "LIVE" && (
-                              <span className="text-red-500">● LIVE</span>
+                              <span className="flex items-center gap-1 text-red-500 font-semibold justify-end">
+                                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                                LIVE
+                              </span>
                             )}
                             {status === "UPCOMING" && (
-                              <span className="text-yellow-400">UPCOMING</span>
+                              <span className="text-yellow-400 font-semibold">
+                                UPCOMING
+                              </span>
                             )}
                             {status === "FINISHED" && (
-                              <span className="text-green-400">FINISHED</span>
+                              <span className="text-green-400 font-semibold">
+                                FINISHED
+                              </span>
                             )}
                           </div>
 
-                        </div>
+                        </motion.div>
                       );
                     })}
                   </div>
                 </div>
               ))}
-
             </motion.div>
           )}
 
@@ -246,49 +260,29 @@ export default function SchedulePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="grid md:grid-cols-3 gap-6 md:gap-8"
+              className="grid md:grid-cols-3 gap-8"
             >
-
-              <div className="space-y-4 md:space-y-6">
-                <h3 className="text-center text-white/40 text-xs uppercase tracking-wider">
-                  Quarter Final
-                </h3>
-
+              <div className="space-y-6">
                 {Array(4).fill(null).map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30"
-                  >
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
                     TBD
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-10 md:space-y-16">
-                <h3 className="text-center text-white/40 text-xs uppercase tracking-wider">
-                  Semi Final
-                </h3>
-
-                {[1, 2].map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30"
-                  >
+              <div className="space-y-16">
+                {[1,2].map((_,i)=>(
+                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
                     TBD
                   </div>
                 ))}
               </div>
 
-              <div className="flex flex-col items-center justify-center">
-                <h3 className="text-white/40 text-xs uppercase tracking-wider mb-4">
-                  Grand Final
-                </h3>
-
-                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center text-white/30 w-full max-w-xs">
-                  TBD
+              <div className="flex items-center justify-center">
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-white/30">
+                  FINAL TBD
                 </div>
               </div>
-
             </motion.div>
           )}
 

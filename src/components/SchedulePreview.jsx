@@ -26,16 +26,17 @@ const schedule = [
     label: "DAY 1",
     matches: [
       { teamA: "Barcelona", teamB: "PSV", time: "16:00", score: [0, 0] },
-      { teamA: "Real Madrid", teamB: "Inter", time: "16:00", score: [0, 0] },
+      { teamA: "Real Madrid", teamB: "Inter", time: "16:00", score: [1, 1] },
       { teamA: "Arsenal", teamB: "Dortmund", time: "18:00", score: [0, 0] },
       { teamA: "Aston Villa", teamB: "Leverkusen", time: "18:00", score: [0, 0] },
     ],
   },
 ];
 
+// 🔥 FIX WIB TIME
 function getStatus(time, date) {
   const now = new Date();
-  const match = new Date(`${date}T${time}:00`);
+  const match = new Date(`${date}T${time}:00+07:00`);
   const end = new Date(match.getTime() + 2 * 60 * 60 * 1000);
 
   if (now < match) return "UPCOMING";
@@ -47,7 +48,11 @@ export default function SchedulePreview() {
   const todayData = schedule[0];
 
   return (
-    <section className="py-24 bg-[#0a0a0a] text-white">
+    <section className="relative py-24 bg-black text-white overflow-hidden">
+
+      {/* 🔥 BACKGROUND DEPTH */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
+
       <div className="max-w-5xl mx-auto px-4 md:px-6">
 
         {/* HEADER */}
@@ -74,15 +79,19 @@ export default function SchedulePreview() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
-                className="
+                className={`
+                  relative
                   flex flex-col md:grid
                   md:grid-cols-[1fr_auto_1fr_auto]
                   gap-4 md:gap-0
                   items-center
-                  bg-white/5 border border-white/10
+                  bg-white/5 backdrop-blur-xl
+                  border border-white/10
                   rounded-xl px-4 md:px-5 py-3 md:py-4
-                  hover:bg-white/10 transition
-                "
+                  transition-all duration-300
+                  hover:bg-white/10
+                  ${status === "LIVE" ? "ring-1 ring-red-500/50 bg-red-500/5" : ""}
+                `}
               >
 
                 {/* 🔝 MOBILE TOP */}
@@ -113,7 +122,7 @@ export default function SchedulePreview() {
                   {/* TEAM A */}
                   <div className="flex items-center gap-2">
                     <img src={logos[m.teamA]} className="w-6 h-6 md:w-7 md:h-7" />
-                    <span className={winnerA ? "text-green-400 font-bold" : ""}>
+                    <span className={winnerA ? "text-green-400 font-semibold" : "text-white/70"}>
                       {m.teamA}
                     </span>
                   </div>
@@ -127,8 +136,9 @@ export default function SchedulePreview() {
                     ) : (
                       <motion.span
                         key={`${m.score[0]}-${m.score[1]}`}
-                        initial={{ scale: 0.8, opacity: 0 }}
+                        initial={{ scale: 0.6, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: "spring", stiffness: 200 }}
                         className="text-lg md:text-xl font-bold"
                       >
                         {m.score[0]} - {m.score[1]}
@@ -138,7 +148,7 @@ export default function SchedulePreview() {
 
                   {/* TEAM B */}
                   <div className="flex items-center gap-2 justify-end">
-                    <span className={winnerB ? "text-green-400 font-bold" : ""}>
+                    <span className={winnerB ? "text-green-400 font-semibold" : "text-white/70"}>
                       {m.teamB}
                     </span>
                     <img src={logos[m.teamB]} className="w-6 h-6 md:w-7 md:h-7" />

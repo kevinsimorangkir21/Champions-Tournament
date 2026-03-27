@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function BracketPreview() {
   const [tab, setTab] = useState("group");
 
-  // 🔥 CONTROL PHASE
-  const isGroupFinished = true; // nanti ubah ke true kalau mau aktif
+  const isGroupFinished = true;
 
   const groups = [
     {
@@ -47,14 +46,17 @@ export default function BracketPreview() {
     },
   ];
 
-  // 🔥 SORT GROUP
+  // 🔥 BETTER SORT (PTS → WIN)
   const sortedGroups = groups.map((g) => ({
     ...g,
-    teams: [...g.teams].sort((a, b) => b.pts - a.pts),
+    teams: [...g.teams].sort((a, b) => {
+      if (b.pts !== a.pts) return b.pts - a.pts;
+      return b.w - a.w;
+    }),
   }));
 
   return (
-    <section className="py-24 bg-[#0a0a0a] text-white">
+    <section className="py-24 bg-black text-white">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* HEADER */}
@@ -62,29 +64,36 @@ export default function BracketPreview() {
           <h2 className="text-3xl md:text-4xl font-bold">
             Tournament Bracket
           </h2>
-          <p className="text-white/60 mt-2">
+          <p className="text-white/50 mt-2">
             Group stage and knockout stage
           </p>
         </div>
 
         {/* TOGGLE */}
         <div className="flex justify-center mb-12">
-          <div className="bg-white/5 border border-white/10 rounded-full p-1 flex">
-            
+          <div className="bg-white/5 border border-white/10 rounded-full p-1 flex backdrop-blur-xl">
+
             <button
               onClick={() => setTab("group")}
-              className={`px-5 py-2 rounded-full text-sm ${
+              className={`px-5 py-2 rounded-full text-sm transition ${
                 tab === "group"
                   ? "bg-white text-black font-semibold"
-                  : "text-white/60"
+                  : "text-white/60 hover:text-white"
               }`}
             >
               Group Stage
             </button>
 
             <button
-              disabled
-              className="px-5 py-2 rounded-full text-sm text-white/40 cursor-not-allowed"
+              onClick={() => isGroupFinished && setTab("knockout")}
+              disabled={!isGroupFinished}
+              className={`px-5 py-2 rounded-full text-sm transition ${
+                tab === "knockout"
+                  ? "bg-white text-black font-semibold"
+                  : isGroupFinished
+                  ? "text-white/60 hover:text-white"
+                  : "text-white/30 cursor-not-allowed"
+              }`}
             >
               Knockout Stage
             </button>
@@ -104,17 +113,26 @@ export default function BracketPreview() {
               className="grid md:grid-cols-2 gap-8"
             >
               {sortedGroups.map((group, i) => (
-                <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-6">
-                  <h3 className="text-sm text-white/50 mb-4 uppercase">
+                <div
+                  key={i}
+                  className="glass rounded-xl p-6"
+                >
+                  <h3 className="text-sm text-white/40 mb-4 uppercase tracking-wider">
                     {group.name}
                   </h3>
 
                   {group.teams.map((team, idx) => (
                     <div
                       key={idx}
-                      className={`flex items-center justify-between px-3 py-2 text-sm ${
-                        idx < 2 ? "bg-green-500/10" : "text-white/60"
-                      }`}
+                      className={`flex items-center justify-between px-3 py-2 text-sm rounded-md transition
+                        ${
+                          idx === 0
+                            ? "bg-white/10 text-white"
+                            : idx === 1
+                            ? "bg-white/5 text-white"
+                            : "text-white/40"
+                        }
+                      `}
                     >
                       <div className="flex items-center gap-3">
                         <img src={team.logo} className="w-5 h-5" />
@@ -122,10 +140,12 @@ export default function BracketPreview() {
                       </div>
 
                       <div className="flex gap-4 text-sm">
-                        <span className="text-white/60">
+                        <span className="text-white/40">
                           {team.w}-{team.d}-{team.l}
                         </span>
-                        <span className="font-semibold">{team.pts}</span>
+                        <span className="font-semibold">
+                          {team.pts}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -134,7 +154,7 @@ export default function BracketPreview() {
             </motion.div>
           )}
 
-          {/* ================= PLAYOFF (RESET) ================= */}
+          {/* ================= KNOCKOUT ================= */}
           {tab === "knockout" && (
             <motion.div
               key="knockout"
@@ -147,7 +167,10 @@ export default function BracketPreview() {
               {/* QF */}
               <div className="space-y-6">
                 {Array(4).fill(null).map((_, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
+                  <div
+                    key={i}
+                    className="glass p-4 text-center text-white/30 rounded-xl"
+                  >
                     TBD
                   </div>
                 ))}
@@ -156,7 +179,10 @@ export default function BracketPreview() {
               {/* SF */}
               <div className="space-y-16">
                 {[1,2].map((_,i)=>(
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
+                  <div
+                    key={i}
+                    className="glass p-4 text-center text-white/30 rounded-xl"
+                  >
                     TBD
                   </div>
                 ))}
@@ -164,8 +190,8 @@ export default function BracketPreview() {
 
               {/* FINAL */}
               <div className="flex items-center justify-center">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-white/30">
-                  TBD
+                <div className="glass p-6 text-white/30 rounded-xl">
+                  FINAL TBD
                 </div>
               </div>
 

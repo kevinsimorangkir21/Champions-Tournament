@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function News() {
@@ -24,10 +25,13 @@ export default function News() {
   ];
 
   return (
-    <section className="relative py-24 bg-[#0a0a0a] text-white overflow-hidden">
-      
+    <section className="relative py-24 bg-black text-white overflow-hidden">
+
+      {/* 🔥 BACKGROUND DEPTH */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
+
       <div className="max-w-6xl mx-auto px-6">
-        
+
         {/* 🔹 Header */}
         <div className="flex items-center justify-between mb-12">
           <div>
@@ -39,9 +43,16 @@ export default function News() {
             </p>
           </div>
 
-          <button className="text-sm border border-white/20 px-4 py-2 rounded-xl hover:bg-white/10 transition">
+          {/* 🔥 CTA */}
+          <Link
+            href="/news"
+            className="
+              text-sm border border-white/20 px-4 py-2 rounded-xl
+              hover:bg-white/10 transition
+            "
+          >
             View All
-          </button>
+          </Link>
         </div>
 
         {/* 🔥 News Grid */}
@@ -55,9 +66,12 @@ export default function News() {
               viewport={{ once: true }}
               className="
                 group
-                bg-white/5 border border-white/10
+                bg-white/5 backdrop-blur-xl
+                border border-white/10
                 rounded-2xl overflow-hidden
-                hover:bg-white/10 transition
+                hover:bg-white/10
+                hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]
+                transition-all duration-300
               "
             >
               
@@ -72,14 +86,14 @@ export default function News() {
 
               {/* 📝 Content */}
               <div className="p-5">
-                
+
                 {/* Date */}
                 <p className="text-xs text-white/40 mb-2">
                   {item.date}
                 </p>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-white">
+                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
                   {item.title}
                 </h3>
 
