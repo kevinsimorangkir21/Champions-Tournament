@@ -1,186 +1,121 @@
 "use client";
+
 import { motion } from "framer-motion";
 
-const logos = {
-  Barcelona: "/teams/barcelona.png",
-  "Real Madrid": "/teams/realmadrid.png",
-  Arsenal: "/teams/arsenal.png",
-  Dortmund: "/teams/dortmund.png",
-  PSV: "/teams/psv.png",
-  "Aston Villa": "/teams/villa.png",
-  Leverkusen: "/teams/leverkusen.png",
-  Inter: "/teams/inter.png",
-  "Man City": "/teams/mancity.png",
-  PSG: "/teams/psg.png",
-  Atlético: "/teams/atletico.png",
-  Ajax: "/teams/ajax.png",
-  Bayern: "/teams/bayern.png",
-  "Al Nassr": "/teams/alnassr.png",
-  Marseille: "/teams/marseille.png",
-  "RC Lens": "/teams/lens.png",
-};
-
-const schedule = [
-  {
-    date: "2026-03-31",
-    label: "DAY 1",
-    matches: [
-      { teamA: "Barcelona", teamB: "PSV", time: "16:00", score: [0, 0] },
-      { teamA: "Real Madrid", teamB: "Inter", time: "16:00", score: [1, 1] },
-      { teamA: "Arsenal", teamB: "Dortmund", time: "18:00", score: [0, 0] },
-      { teamA: "Aston Villa", teamB: "Leverkusen", time: "18:00", score: [0, 0] },
-    ],
-  },
-];
-
-// 🔥 FIX WIB TIME
-function getStatus(time, date) {
-  const now = new Date();
-  const match = new Date(`${date}T${time}:00+07:00`);
-  const end = new Date(match.getTime() + 2 * 60 * 60 * 1000);
-
-  if (now < match) return "UPCOMING";
-  if (now >= match && now <= end) return "LIVE";
-  return "FINISHED";
-}
-
 export default function SchedulePreview() {
-  const todayData = schedule[0];
-
   return (
-    <section className="relative py-24 bg-black text-white overflow-hidden">
+    <section className="relative isolate overflow-hidden bg-[#050505] py-20 text-white sm:py-24">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[#050505]" />
 
-      {/* 🔥 BACKGROUND DEPTH */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
+      <div className="pointer-events-none absolute -right-40 top-0 -z-10 h-80 w-80 rounded-full bg-[#d7ff3f]/[0.035] blur-[120px]" />
 
-      <div className="max-w-5xl mx-auto px-4 md:px-6">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-end md:mb-16"
+        >
+          <div>
 
-        {/* HEADER */}
-        <div className="mb-10">
-          <h2 className="text-2xl md:text-4xl font-bold">
-            Match Schedule
-          </h2>
-          <p className="text-white/50 mt-1 text-sm">
-            {todayData.label}
-          </p>
-        </div>
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl md:text-7xl">
+              Match
+              <br />
+              <span className="text-[#d7ff3f]">Schedule.</span>
+            </h2>
 
-        {/* MATCH LIST */}
-        <div className="space-y-4">
-          {todayData.matches.map((m, i) => {
-            const status = getStatus(m.time, todayData.date);
+            <p className="mt-6 max-w-xl text-sm leading-7 text-white/50 md:text-base">
+              All the action. One destination.
+            </p>
+          </div>
 
-            const winnerA = m.score[0] > m.score[1];
-            const winnerB = m.score[1] > m.score[0];
+          <div className="flex w-fit items-center gap-3 border border-white/10 bg-white/[0.02] px-4 py-3">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping bg-[#d7ff3f] opacity-50" />
+              <span className="relative h-2 w-2 bg-[#d7ff3f]" />
+            </span>
 
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-                className={`
-                  relative
-                  flex flex-col md:grid
-                  md:grid-cols-[1fr_auto_1fr_auto]
-                  gap-4 md:gap-0
-                  items-center
-                  bg-white/5 backdrop-blur-xl
-                  border border-white/10
-                  rounded-xl px-4 md:px-5 py-3 md:py-4
-                  transition-all duration-300
-                  hover:bg-white/10
-                  ${status === "LIVE" ? "ring-1 ring-red-500/50 bg-red-500/5" : ""}
-                `}
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+              Tournament 2026
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Empty Schedule */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="group relative overflow-hidden border border-white/10 bg-[#101010] px-5 py-16 transition-colors duration-300 hover:border-[#d7ff3f]/30 sm:py-24"
+        >
+          {/* Subtle glow */}
+          <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-[#d7ff3f]/[0.035] blur-[100px] transition-opacity duration-500 group-hover:bg-[#d7ff3f]/[0.06]" />
+
+          {/* Decorative number */}
+          <span className="pointer-events-none absolute -right-4 top-0 select-none text-[180px] font-black italic leading-none text-white/[0.02] sm:text-[240px]">
+            26
+          </span>
+
+          <div className="relative mx-auto flex max-w-xl flex-col items-center text-center">
+            {/* Calendar icon */}
+            <div className="relative mb-7 flex h-20 w-20 items-center justify-center border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.04] transition-colors duration-300 group-hover:border-[#d7ff3f]/50 group-hover:bg-[#d7ff3f]/[0.07]">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-8 w-8 text-[#d7ff3f]"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
               >
+                <rect x="3" y="5" width="18" height="16" rx="1" />
+                <path d="M16 3v4M8 3v4M3 10h18" />
+                <path d="m9 15 2 2 4-4" />
+              </svg>
 
-                {/* 🔝 MOBILE TOP */}
-                <div className="flex justify-between items-center w-full md:hidden text-xs text-white/50">
-                  <span>{m.time}</span>
+              <span className="absolute -bottom-px -left-px h-4 w-4 border-b-2 border-l-2 border-[#d7ff3f]" />
 
-                  {status === "LIVE" && (
-                    <span className="flex items-center gap-1 text-red-500 font-semibold">
-                      <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                      LIVE
-                    </span>
-                  )}
-                  {status === "UPCOMING" && (
-                    <span className="text-yellow-400 font-semibold">
-                      UPCOMING
-                    </span>
-                  )}
-                  {status === "FINISHED" && (
-                    <span className="text-green-400 font-semibold">
-                      FINISHED
-                    </span>
-                  )}
-                </div>
+              <span className="absolute -right-px -top-px h-4 w-4 border-r-2 border-t-2 border-[#d7ff3f]" />
+            </div>
 
-                {/* MAIN */}
-                <div className="flex items-center justify-between w-full md:contents">
+            {/* Status */}
+            <span className="mb-5 border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.04] px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
+              Awaiting Draw
+            </span>
 
-                  {/* TEAM A */}
-                  <div className="flex items-center gap-2">
-                    <img src={logos[m.teamA]} className="w-6 h-6 md:w-7 md:h-7" />
-                    <span className={winnerA ? "text-green-400 font-semibold" : "text-white/70"}>
-                      {m.teamA}
-                    </span>
-                  </div>
+            {/* Title */}
+            <h3 className="text-2xl font-black uppercase leading-tight tracking-tight sm:text-4xl">
+              Jadwal Pertandingan
+              <span className="mt-2 block text-[#d7ff3f]">
+                Belum Ditentukan
+              </span>
+            </h3>
 
-                  {/* SCORE */}
-                  <div className="text-center">
-                    {status === "UPCOMING" ? (
-                      <span className="text-white/40 text-sm hidden md:block">
-                        {m.time}
-                      </span>
-                    ) : (
-                      <motion.span
-                        key={`${m.score[0]}-${m.score[1]}`}
-                        initial={{ scale: 0.6, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ type: "spring", stiffness: 200 }}
-                        className="text-lg md:text-xl font-bold"
-                      >
-                        {m.score[0]} - {m.score[1]}
-                      </motion.span>
-                    )}
-                  </div>
+            {/* Description */}
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/45">
+              Jadwal pertandingan, pasangan tim, dan waktu kick-off akan
+              diumumkan setelah proses drawing Champions Tournament 2026
+              selesai dilaksanakan.
+            </p>
 
-                  {/* TEAM B */}
-                  <div className="flex items-center gap-2 justify-end">
-                    <span className={winnerB ? "text-green-400 font-semibold" : "text-white/70"}>
-                      {m.teamB}
-                    </span>
-                    <img src={logos[m.teamB]} className="w-6 h-6 md:w-7 md:h-7" />
-                  </div>
+            {/* Waiting indicator */}
+            <div className="mt-9 flex items-center gap-3 border-t border-white/10 pt-5">
+              <span className="h-1.5 w-1.5 animate-pulse bg-[#d7ff3f]" />
 
-                  {/* DESKTOP STATUS */}
-                  <div className="hidden md:block text-right ml-6">
-                    {status === "LIVE" && (
-                      <span className="flex items-center gap-1 text-red-500 text-xs font-semibold justify-end">
-                        <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        LIVE
-                      </span>
-                    )}
-                    {status === "UPCOMING" && (
-                      <span className="text-yellow-400 text-xs font-semibold">
-                        UPCOMING
-                      </span>
-                    )}
-                    {status === "FINISHED" && (
-                      <span className="text-green-400 text-xs font-semibold">
-                        FINISHED
-                      </span>
-                    )}
-                  </div>
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/35">
+                Waiting for official draw
+              </span>
+            </div>
+          </div>
 
-                </div>
-
-              </motion.div>
-            );
-          })}
-        </div>
-
+          {/* Bottom accent */}
+          <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#d7ff3f] transition-all duration-700 group-hover:w-full" />
+        </motion.div>
       </div>
     </section>
   );

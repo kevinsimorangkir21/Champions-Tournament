@@ -1,117 +1,149 @@
 "use client";
+
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+const news = [
+  {
+    title: "EVOS vs RRQ Ends in Intense Battle",
+    desc: "A thrilling match between EVOS and RRQ ends with a surprising comeback.",
+    date: "25 Mar 2026",
+    image: "/news/news1.jpg",
+    category: "MATCH RECAP",
+    number: "01",
+  },
+  {
+    title: "ONIC Secures Semi Final Spot",
+    desc: "ONIC dominates the quarter finals and advances to the next stage.",
+    date: "24 Mar 2026",
+    image: "/news/news2.jpg",
+    category: "TOURNAMENT",
+    number: "02",
+  },
+  {
+    title: "Tournament Prize Pool Increased",
+    desc: "Organizers officially announced an increase in the total prize pool.",
+    date: "23 Mar 2026",
+    image: "/news/news3.jpg",
+    category: "ANNOUNCEMENT",
+    number: "03",
+  },
+];
+
 export default function News() {
-  const news = [
-    {
-      title: "EVOS vs RRQ Ends in Intense Battle",
-      desc: "A thrilling match between EVOS and RRQ ends with a surprising comeback.",
-      date: "25 Mar 2026",
-      image: "/news/news1.jpg",
-    },
-    {
-      title: "ONIC Secures Semi Final Spot",
-      desc: "ONIC dominates the quarter finals and advances to the next stage.",
-      date: "24 Mar 2026",
-      image: "/news/news2.jpg",
-    },
-    {
-      title: "Tournament Prize Pool Increased",
-      desc: "Organizers officially announced an increase in the total prize pool.",
-      date: "23 Mar 2026",
-      image: "/news/news3.jpg",
-    },
-  ];
-
   return (
-    <section className="relative py-24 bg-black text-white overflow-hidden">
-
-      {/* 🔥 BACKGROUND DEPTH */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
-
-      <div className="max-w-6xl mx-auto px-6">
-
-        {/* 🔹 Header */}
-        <div className="flex items-center justify-between mb-12">
+    <section className="relative w-full overflow-hidden bg-[#050505] py-20 text-white md:py-28">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 flex flex-col justify-between gap-8 md:mb-16 md:flex-row md:items-end"
+        >
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Latest News
+            <h2 className="text-4xl font-black uppercase leading-[0.95] tracking-tight sm:text-5xl md:text-7xl">
+              Latest
+              <br />
+              <span className="text-[#d7ff3f]">News.</span>
             </h2>
-            <p className="text-white/60 mt-2">
-              Stay updated with tournament highlights
+
+            <p className="mt-6 max-w-xl text-sm leading-7 text-white/50 md:text-base">
+              Stay updated with the latest tournament highlights, match
+              recaps, and announcements.
             </p>
           </div>
 
-          {/* 🔥 CTA */}
           <Link
             href="/news"
-            className="
-              text-sm border border-white/20 px-4 py-2 rounded-xl
-              hover:bg-white/10 transition
-            "
+            className="group inline-flex w-fit items-center gap-3 border border-white/15 px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:border-[#d7ff3f] hover:bg-[#d7ff3f] hover:text-black"
           >
-            View All
+            View All News
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
           </Link>
-        </div>
+        </motion.div>
 
-        {/* 🔥 News Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {news.map((item, i) => (
-            <motion.div
-              key={i}
+        {/* News cards */}
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {news.map((item, index) => (
+            <motion.article
+              key={item.number}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="
-                group
-                bg-white/5 backdrop-blur-xl
-                border border-white/10
-                rounded-2xl overflow-hidden
-                hover:bg-white/10
-                hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]
-                transition-all duration-300
-              "
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.12,
+              }}
+              className="group relative overflow-hidden border border-white/10 bg-[#101010] transition-colors duration-300 hover:border-[#d7ff3f]/60"
             >
-              
-              {/* 🖼️ Image */}
-              <div className="h-40 overflow-hidden">
+              {/* Image */}
+              <div className="relative h-52 overflow-hidden sm:h-56">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
+
+                {/* Image overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/10 to-transparent opacity-90" />
+
+                {/* Category */}
+                <div className="absolute left-5 top-5">
+                  <span className="border border-[#d7ff3f]/40 bg-black/70 px-3 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-[#d7ff3f] backdrop-blur-sm">
+                    {item.category}
+                  </span>
+                </div>
+
+                {/* Number */}
+                <span className="absolute bottom-4 right-5 text-5xl font-black italic text-white/20 transition-colors duration-300 group-hover:text-[#d7ff3f]/50">
+                  {item.number}
+                </span>
               </div>
 
-              {/* 📝 Content */}
-              <div className="p-5">
-
+              {/* Content */}
+              <div className="relative p-5 md:p-6">
                 {/* Date */}
-                <p className="text-xs text-white/40 mb-2">
-                  {item.date}
-                </p>
+                <div className="mb-4 flex items-center gap-3">
+                  <span className="h-1.5 w-1.5 bg-[#d7ff3f]" />
+
+                  <time className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+                    {item.date}
+                  </time>
+                </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-white transition">
+                <h3 className="mb-3 text-lg font-black uppercase leading-snug tracking-wide text-white transition-colors duration-300 group-hover:text-[#d7ff3f] md:text-xl">
                   {item.title}
                 </h3>
 
-                {/* Desc */}
-                <p className="text-sm text-white/60">
+                {/* Description */}
+                <p className="text-sm leading-6 text-white/50">
                   {item.desc}
                 </p>
 
+                {/* Card bottom */}
+                <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">
+                    News Update
+                  </span>
+
+                  <span className="text-lg text-[#d7ff3f] transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
               </div>
 
-            </motion.div>
+              {/* Hover accent */}
+              <div className="absolute bottom-0 left-0 h-[2px] w-0 bg-[#d7ff3f] transition-all duration-500 group-hover:w-full" />
+            </motion.article>
           ))}
         </div>
-
       </div>
-
-      {/* 🔻 Bottom Fade */}
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent"></div>
     </section>
   );
 }

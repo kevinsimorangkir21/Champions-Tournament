@@ -1,293 +1,207 @@
 "use client";
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const isGroupFinished = false;
 
-const logos = {
-  Barcelona: "/teams/barcelona.png",
-  "Real Madrid": "/teams/realmadrid.png",
-  Arsenal: "/teams/arsenal.png",
-  Dortmund: "/teams/dortmund.png",
-  PSV: "/teams/psv.png",
-  "Aston Villa": "/teams/villa.png",
-  Leverkusen: "/teams/leverkusen.png",
-  Inter: "/teams/inter.png",
-  "Man City": "/teams/mancity.png",
-  PSG: "/teams/psg.png",
-  Atlético: "/teams/atletico.png",
-  Ajax: "/teams/ajax.png",
-  Bayern: "/teams/bayern.png",
-  "Al Nassr": "/teams/alnassr.png",
-  Marseille: "/teams/marseille.png",
-  "RC Lens": "/teams/lens.png",
-};
-
-const schedule = [
-  {
-    date: "2026-03-31",
-    label: "DAY 1 — 31 MARCH",
-    matches: [
-      { teamA: "Barcelona", teamB: "PSV", time: "16:00", score: [0, 0] },
-      { teamA: "Real Madrid", teamB: "Inter", time: "16:00", score: [0, 0] },
-      { teamA: "Arsenal", teamB: "Dortmund", time: "18:00", score: [0, 0] },
-      { teamA: "Aston Villa", teamB: "Leverkusen", time: "18:00", score: [0, 0] },
-    ],
-  },
-  {
-    date: "2026-04-01",
-    label: "DAY 2 — 1 APRIL",
-    matches: [
-      { teamA: "Man City", teamB: "Ajax", time: "16:00", score: [0, 0] },
-      { teamA: "Bayern", teamB: "Marseille", time: "16:00", score: [0, 0] },
-      { teamA: "Atlético", teamB: "PSG", time: "18:00", score: [0, 0] },
-      { teamA: "Al Nassr", teamB: "RC Lens", time: "18:00", score: [0, 0] },
-    ],
-  },
-  {
-    date: "2026-04-02",
-    label: "DAY 3 — 2 APRIL",
-    matches: [
-      { teamA: "Barcelona", teamB: "Dortmund", time: "16:00", score: [0, 0] },
-      { teamA: "Real Madrid", teamB: "Leverkusen", time: "16:00", score: [0, 0] },
-      { teamA: "Arsenal", teamB: "PSV", time: "18:00", score: [0, 0] },
-      { teamA: "Aston Villa", teamB: "Inter", time: "18:00", score: [0, 0] },
-    ],
-  },
-  {
-    date: "2026-04-03",
-    label: "DAY 4 — 3 APRIL",
-    matches: [
-      { teamA: "Man City", teamB: "PSG", time: "16:00", score: [0, 0] },
-      { teamA: "Bayern", teamB: "RC Lens", time: "16:00", score: [0, 0] },
-      { teamA: "Atlético", teamB: "Ajax", time: "18:00", score: [0, 0] },
-      { teamA: "Al Nassr", teamB: "Marseille", time: "18:00", score: [0, 0] },
-    ],
-  },
-  {
-    date: "2026-04-04",
-    label: "DAY 5 — 4 APRIL",
-    matches: [
-      { teamA: "Barcelona", teamB: "Arsenal", time: "16:00", score: [0, 0] },
-      { teamA: "Real Madrid", teamB: "Aston Villa", time: "16:00", score: [0, 0] },
-      { teamA: "Dortmund", teamB: "PSV", time: "18:00", score: [0, 0] },
-      { teamA: "Leverkusen", teamB: "Inter", time: "18:00", score: [0, 0] },
-    ],
-  },
-  {
-    date: "2026-04-05",
-    label: "DAY 6 — 5 APRIL",
-    matches: [
-      { teamA: "Man City", teamB: "Atlético", time: "16:00", score: [0, 0] },
-      { teamA: "Bayern", teamB: "Al Nassr", time: "16:00", score: [0, 0] },
-      { teamA: "PSG", teamB: "Ajax", time: "18:00", score: [0, 0] },
-      { teamA: "RC Lens", teamB: "Marseille", time: "18:00", score: [0, 0] },
-    ],
-  },
-];
-
-// 🔥 FIX WIB
-function getStatus(time, date) {
-  const now = new Date();
-  const match = new Date(`${date}T${time}:00+07:00`);
-  const end = new Date(match.getTime() + 2 * 60 * 60 * 1000);
-
-  if (now < match) return "UPCOMING";
-  if (now >= match && now <= end) return "LIVE";
-  return "FINISHED";
-}
-
 export default function SchedulePage() {
   const [tab, setTab] = useState("schedule");
 
   return (
-    <section className="relative py-20 md:py-24 bg-black text-white overflow-hidden">
+    <section className="relative overflow-hidden bg-black py-20 text-white md:py-24">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-0 h-[350px] w-[600px] -translate-x-1/2 rounded-full bg-[#d7ff3f]/[0.035] blur-[120px]" />
+      </div>
 
-      {/* 🔥 BACKGROUND DEPTH */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_60%)] -z-10" />
-
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
-
-        {/* HEADER */}
-        <div className="mb-8 md:mb-10">
-          <h1 className="text-2xl md:text-4xl font-bold">
-            Match Schedule
-          </h1>
-        </div>
-
-        {/* TOGGLE */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-full p-1 flex">
-
+      <div className="relative mx-auto max-w-6xl px-4 md:px-6">
+        {/* Tabs */}
+        <div className="mb-12 flex justify-center">
+          <div className="flex rounded-full border border-white/10 bg-white/[0.04] p-1">
             <button
+              type="button"
               onClick={() => setTab("schedule")}
-              className={`px-5 py-2 rounded-full text-sm ${
+              className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                 tab === "schedule"
-                  ? "bg-white text-black"
-                  : "text-white/60 hover:text-white"
+                  ? "bg-[#d7ff3f] text-black"
+                  : "text-white/50 hover:text-white"
               }`}
             >
               Group Stage
             </button>
 
             <button
+              type="button"
               onClick={() => isGroupFinished && setTab("playoff")}
               disabled={!isGroupFinished}
-              className={`px-5 py-2 rounded-full text-sm ${
+              className={`rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-300 ${
                 tab === "playoff"
-                  ? "bg-white text-black"
-                  : "text-white/40"
-              } ${!isGroupFinished ? "cursor-not-allowed" : ""}`}
+                  ? "bg-[#d7ff3f] text-black"
+                  : "cursor-not-allowed text-white/25"
+              }`}
             >
               Playoff
             </button>
-
           </div>
         </div>
 
         <AnimatePresence mode="wait">
-
-          {/* ================= GROUP ================= */}
+          {/* Group Stage */}
           {tab === "schedule" && (
             <motion.div
               key="schedule"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="space-y-10"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
             >
-              {schedule.map((day, dIdx) => (
-                <div key={dIdx}>
-                  <h2 className="text-white/40 mb-4 text-sm uppercase tracking-wider">
-                    {day.label}
-                  </h2>
+              <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#080808]">
+                {/* Decorative accent */}
+                <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-[#d7ff3f]/70 to-transparent" />
 
-                  <div className="space-y-4">
-                    {day.matches.map((m, i) => {
-                      const status = getStatus(m.time, day.date);
-                      const showScore =
-                        m.score[0] !== 0 || m.score[1] !== 0;
+                <div className="relative flex min-h-[360px] flex-col items-center justify-center px-6 py-16 text-center md:min-h-[420px]">
+                  {/* Decorative glow */}
+                  <div className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d7ff3f]/[0.045] blur-[80px]" />
 
-                      const winnerA = m.score[0] > m.score[1];
-                      const winnerB = m.score[1] > m.score[0];
+                  {/* Calendar icon */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.45 }}
+                    className="relative mb-7 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.06]"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="h-9 w-9 text-[#d7ff3f]"
+                      aria-hidden="true"
+                    >
+                      <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="16"
+                        rx="2"
+                      />
+                      <path d="M16 3v4M8 3v4M3 10h18" />
+                      <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
+                    </svg>
+                  </motion.div>
 
-                      return (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.05 }}
-                          className={`
-                            flex flex-col md:grid
-                            md:grid-cols-[1fr_auto_1fr_auto]
-                            items-center
-                            gap-3 md:gap-0
-                            bg-white/5 backdrop-blur-xl
-                            border border-white/10
-                            rounded-xl px-4 md:px-6 py-4
-                            hover:bg-white/10 transition
-                            ${status === "LIVE" ? "ring-1 ring-red-500/50 bg-red-500/5" : ""}
-                          `}
-                        >
+                  {/* Status */}
+                  <div className="relative mb-5 inline-flex items-center gap-2 rounded-full border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.06] px-3.5 py-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#d7ff3f]" />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
+                      Schedule TBA
+                    </span>
+                  </div>
 
-                          {/* TEAM A */}
-                          <div className="flex items-center gap-3">
-                            <img src={logos[m.teamA]} className="w-6 md:w-7" />
-                            <span className={winnerA ? "text-green-400 font-semibold" : "text-white/70"}>
-                              {m.teamA}
-                            </span>
-                          </div>
+                  {/* Main message */}
+                  <motion.h2
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.4 }}
+                    className="relative max-w-xl text-3xl font-black uppercase leading-tight tracking-tight md:text-5xl"
+                  >
+                    Fixtures
+                    <span className="mt-1 block text-white/35">
+                      Coming Soon
+                    </span>
+                  </motion.h2>
 
-                          {/* SCORE */}
-                          <div className="text-center">
-                            {showScore ? (
-                              <motion.span
-                                key={`${m.score[0]}-${m.score[1]}`}
-                                initial={{ scale: 0.6, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                className="text-lg md:text-xl font-bold"
-                              >
-                                {m.score[0]} - {m.score[1]}
-                              </motion.span>
-                            ) : (
-                              <span className="text-white/40 text-sm">
-                                {m.time}
-                              </span>
-                            )}
-                          </div>
+                  <motion.p
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
+                    className="relative mt-5 max-w-md text-sm leading-7 text-white/45 md:text-base"
+                  >
+                    Jadwal pertandingan akan diumumkan setelah penentuan
+                    jadwal resmi turnamen.
+                  </motion.p>
 
-                          {/* TEAM B */}
-                          <div className="flex items-center justify-end gap-3">
-                            <span className={winnerB ? "text-green-400 font-semibold" : "text-white/70"}>
-                              {m.teamB}
-                            </span>
-                            <img src={logos[m.teamB]} className="w-6 md:w-7" />
-                          </div>
-
-                          {/* STATUS */}
-                          <div className="text-xs text-right">
-                            {status === "LIVE" && (
-                              <span className="flex items-center gap-1 text-red-500 font-semibold justify-end">
-                                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                                LIVE
-                              </span>
-                            )}
-                            {status === "UPCOMING" && (
-                              <span className="text-yellow-400 font-semibold">
-                                UPCOMING
-                              </span>
-                            )}
-                            {status === "FINISHED" && (
-                              <span className="text-green-400 font-semibold">
-                                FINISHED
-                              </span>
-                            )}
-                          </div>
-
-                        </motion.div>
-                      );
-                    })}
+                  {/* Bottom accent */}
+                  <div className="relative mt-8 flex items-center gap-3">
+                    <span className="h-px w-8 bg-white/15" />
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/30">
+                      Stay Tuned
+                    </span>
+                    <span className="h-px w-8 bg-white/15" />
                   </div>
                 </div>
-              ))}
+
+                {/* Bottom border accent */}
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+              </div>
             </motion.div>
           )}
 
-          {/* ================= PLAYOFF ================= */}
+          {/* Playoff */}
           {tab === "playoff" && (
             <motion.div
               key="playoff"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid md:grid-cols-3 gap-8"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
+              className="grid gap-6 md:grid-cols-3"
             >
-              <div className="space-y-6">
-                {Array(4).fill(null).map((_, i) => (
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
-                    TBD
+              {/* Quarter-finals */}
+              <div className="space-y-4">
+                {[1, 2, 3, 4].map((match) => (
+                  <div
+                    key={match}
+                    className="rounded-xl border border-white/10 bg-white/[0.025] p-5 transition-colors hover:border-[#d7ff3f]/20"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+                      Quarter-final {match}
+                    </span>
+
+                    <div className="mt-4 text-sm font-semibold text-white/25">
+                      TBD
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="space-y-16">
-                {[1,2].map((_,i)=>(
-                  <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center text-white/30">
-                    TBD
+              {/* Semi-finals */}
+              <div className="flex flex-col justify-around gap-6">
+                {[1, 2].map((match) => (
+                  <div
+                    key={match}
+                    className="rounded-xl border border-white/10 bg-white/[0.025] p-6 transition-colors hover:border-[#d7ff3f]/20"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+                      Semi-final {match}
+                    </span>
+
+                    <div className="mt-4 text-sm font-semibold text-white/25">
+                      TBD
+                    </div>
                   </div>
                 ))}
               </div>
 
-              <div className="flex items-center justify-center">
-                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-white/30">
-                  FINAL TBD
+              {/* Final */}
+              <div className="flex items-center">
+                <div className="w-full rounded-xl border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.035] p-8 text-center">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
+                    Grand Final
+                  </span>
+
+                  <div className="mt-5 text-lg font-bold text-white/25">
+                    TBD
+                  </div>
                 </div>
               </div>
             </motion.div>
           )}
-
         </AnimatePresence>
-
       </div>
     </section>
   );
