@@ -1,25 +1,27 @@
+
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 const teams = [
-  { id: 1, league: "LaLiga", leagueNumber: 1, logo: "/teams/barcelona.png" },
-  { id: 2, league: "Premier League", leagueNumber: 1, logo: "/teams/arsenal.png" },
-  { id: 3, league: "Bundesliga", leagueNumber: 1, logo: "/teams/dortmund.png" },
-  { id: 4, league: "Eredivisie", leagueNumber: 1, logo: "/teams/psv.png" },
-  { id: 5, league: "LaLiga", leagueNumber: 2, logo: "/teams/realmadrid.png" },
-  { id: 6, league: "Premier League", leagueNumber: 2, logo: "/teams/villa.png" },
-  { id: 7, league: "Bundesliga", leagueNumber: 2, logo: "/teams/leverkusen.png" },
-  { id: 8, league: "Serie A", leagueNumber: 1, logo: "/teams/inter.png" },
-  { id: 9, league: "Premier League", leagueNumber: 3, logo: "/teams/mancity.png" },
-  { id: 10, league: "LaLiga", leagueNumber: 3, logo: "/teams/atletico.png" },
-  { id: 11, league: "Ligue 1", leagueNumber: 1, logo: "/teams/psg.png" },
-  { id: 12, league: "Eredivisie", leagueNumber: 2, logo: "/teams/ajax.png" },
-  { id: 13, league: "Bundesliga", leagueNumber: 3, logo: "/teams/bayern.png" },
-  { id: 14, league: "Saudi Pro League", leagueNumber: 1, logo: "/teams/alnassr.png" },
-  { id: 15, league: "Ligue 1", leagueNumber: 2, logo: "/teams/lens.png" },
-  { id: 16, league: "Ligue 1", leagueNumber: 3, logo: "/teams/marseille.png" },
+  { id: 1, name: "Barcelona", league: "LaLiga", leagueNumber: 1, logo: "/teams/barcelona.png" },
+  { id: 2, name: "Arsenal", league: "Premier League", leagueNumber: 1, logo: "/teams/arsenal.png" },
+  { id: 3, name: "Dortmund", league: "Bundesliga", leagueNumber: 1, logo: "/teams/dortmund.png" },
+  { id: 4, name: "PSV Eindhoven", league: "Eredivisie", leagueNumber: 1, logo: "/teams/psv.png" },
+  { id: 5, name: "Real Madrid", league: "LaLiga", leagueNumber: 2, logo: "/teams/realmadrid.png" },
+  { id: 6, name: "Aston Villa", league: "Premier League", leagueNumber: 2, logo: "/teams/villa.png" },
+  { id: 7, name: "Leverkusen", league: "Bundesliga", leagueNumber: 2, logo: "/teams/leverkusen.png" },
+  { id: 8, name: "Inter Milan", league: "Serie A", leagueNumber: 1, logo: "/teams/inter.png" },
+  { id: 9, name: "Man City", league: "Premier League", leagueNumber: 3, logo: "/teams/mancity.png" },
+  { id: 10, name: "Atletico", league: "LaLiga", leagueNumber: 3, logo: "/teams/atletico.png" },
+  { id: 11, name: "PSG", league: "Ligue 1", leagueNumber: 1, logo: "/teams/psg.png" },
+  { id: 12, name: "Ajax", league: "Eredivisie", leagueNumber: 2, logo: "/teams/ajax.png" },
+  { id: 13, name: "Munich", league: "Bundesliga", leagueNumber: 3, logo: "/teams/bayern.png" },
+  { id: 14, name: "Al-Nassr", league: "Saudi Pro League", leagueNumber: 1, logo: "/teams/alnassr.png" },
+  { id: 15, name: "Lens", league: "Ligue 1", leagueNumber: 2, logo: "/teams/lens.png" },
+  { id: 16, name: "Marseille", league: "Ligue 1", leagueNumber: 3, logo: "/teams/marseille.png" },
 ];
 
 const loopTeams = [...teams, ...teams];
@@ -27,7 +29,6 @@ const loopTeams = [...teams, ...teams];
 export default function Teams() {
   return (
     <section className="relative w-full overflow-hidden bg-[#050505] py-20 text-white md:py-28">
-
       <div className="relative z-10">
         {/* Header */}
         <div className="mx-auto mb-14 max-w-7xl px-6 md:mb-20 md:px-10">
@@ -53,27 +54,24 @@ export default function Teams() {
                 </h2>
 
                 <p className="mt-6 max-w-xl text-sm leading-7 text-white/50 md:text-base">
-                  Daftar tim peserta akan ditampilkan setelah proses drawing
-                  Champions Tournament 2026 selesai dilaksanakan.
+                  16 klub dari berbagai liga akan bersaing untuk meraih gelar
+                  juara Champions Tournament 2026. Saksikan hasil drawing dan
+                  perjalanan setiap tim menuju puncak kompetisi.
                 </p>
               </div>
 
               <div className="flex items-center gap-4 border-l border-white/10 pl-5">
                 <div>
-                  <p className="text-3xl font-black tabular-nums text-white">
-                    16
-                  </p>
+                  <p className="text-3xl font-black tabular-nums text-white">16</p>
                   <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                    Team Slots
+                    Teams
                   </p>
                 </div>
 
                 <div className="h-12 w-px bg-white/10" />
 
                 <div>
-                  <p className="text-3xl font-black tabular-nums text-[#d7ff3f]">
-                    07
-                  </p>
+                  <p className="text-3xl font-black tabular-nums text-[#d7ff3f]">07</p>
                   <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
                     Leagues
                   </p>
@@ -86,7 +84,6 @@ export default function Teams() {
         {/* Team marquee */}
         <div className="relative">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-12 bg-gradient-to-r from-[#050505] to-transparent md:w-32" />
-
           <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-12 bg-gradient-to-l from-[#050505] to-transparent md:w-32" />
 
           <motion.div
@@ -103,7 +100,7 @@ export default function Teams() {
                 key={`${team.id}-${index}`}
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.25 }}
-                className="group relative flex h-[240px] w-[190px] shrink-0 flex-col justify-between overflow-hidden border border-white/10 bg-[#101010] p-5 transition-colors duration-300 hover:border-[#d7ff3f]/70 md:h-[280px] md:w-[230px] md:p-6"
+                className="group relative flex h-[260px] w-[190px] shrink-0 flex-col justify-between overflow-hidden border border-white/10 bg-[#101010] p-5 transition-colors duration-300 hover:border-[#d7ff3f]/70 md:h-[290px] md:w-[230px] md:p-6"
               >
                 {/* Hover glow */}
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#d7ff3f]/[0.09] via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -116,37 +113,37 @@ export default function Teams() {
                 {/* Card top */}
                 <div className="relative z-10 flex items-center justify-between">
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
-                    Champions 2026
+                    Team {String(team.id).padStart(2, "0")}
                   </span>
-
                   <span className="h-2 w-2 bg-[#d7ff3f] opacity-70 transition-opacity group-hover:opacity-100" />
                 </div>
 
-                {/* Anonymous team identity */}
+                {/* Club logo */}
                 <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
-                  <div className="relative flex h-20 w-20 items-center justify-center border border-white/10 bg-white/[0.025] transition-all duration-300 group-hover:border-[#d7ff3f]/40 group-hover:bg-[#d7ff3f]/[0.04] md:h-24 md:w-24">
-                    <span className="text-4xl font-black italic text-white/15 transition-colors duration-300 group-hover:text-[#d7ff3f]/50">
-                      ?
-                    </span>
-
-                    <span className="absolute -bottom-px -left-px h-3 w-3 border-b-2 border-l-2 border-[#d7ff3f]/50" />
-
-                    <span className="absolute -right-px -top-px h-3 w-3 border-r-2 border-t-2 border-[#d7ff3f]/50" />
+                  <div className="relative flex h-24 w-24 items-center justify-center transition-transform duration-500 group-hover:scale-110 md:h-28 md:w-28">
+                    <Image
+                      src={team.logo}
+                      alt={`Logo ${team.name}`}
+                      width={112}
+                      height={112}
+                      sizes="112px"
+                      className="h-full w-full object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.04)] transition-all duration-500 group-hover:drop-shadow-[0_0_18px_rgba(215,255,63,0.12)]"
+                    />
                   </div>
 
-                  <p className="mt-4 text-center text-lg font-black uppercase tracking-[0.08em] text-white transition-colors group-hover:text-[#d7ff3f] md:text-xl">
-                    TEAM {String(team.id).padStart(2, "0")}
-                  </p>
+                  <h3 className="mt-4 line-clamp-2 text-center text-base font-black uppercase tracking-wide text-white transition-colors duration-300 group-hover:text-[#d7ff3f] md:text-lg">
+                    {team.name}
+                  </h3>
 
-                  <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-white/40 transition-colors group-hover:text-white/70 md:text-xs">
-                    {team.league} #{team.leagueNumber}
+                  <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-white/40 transition-colors group-hover:text-white/70 md:text-xs">
+                    {team.league}
                   </p>
                 </div>
 
                 {/* Card bottom */}
                 <div className="relative z-10 flex items-center justify-between border-t border-white/10 pt-4">
                   <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">
-                    Identity classified
+                    Champions 2026
                   </span>
 
                   <span className="text-xs font-black text-[#d7ff3f]/60">
@@ -170,7 +167,7 @@ export default function Teams() {
             </span>
 
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
-              Team identities remain confidential until drawing
+              16 Clubs. One Champion.
             </p>
           </div>
 
