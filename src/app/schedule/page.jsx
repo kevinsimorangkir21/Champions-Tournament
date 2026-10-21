@@ -1,9 +1,24 @@
+
 "use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  CalendarDays,
+  Clock3,
+  MapPin,
+  ArrowUpRight,
+  Trophy,
+} from "lucide-react";
 
 const isGroupFinished = false;
+
+const drawGroup = {
+  day: "Minggu",
+  date: "25 Oktober 2026",
+  time: "19:00 WIB",
+  location: "Jakarta, Indonesia",
+};
 
 export default function SchedulePage() {
   const [tab, setTab] = useState("schedule");
@@ -16,8 +31,94 @@ export default function SchedulePage() {
       </div>
 
       <div className="relative mx-auto max-w-6xl px-4 md:px-6">
-        {/* Tabs */}
-        <div className="mb-12 flex justify-center">
+        {/* DRAW GROUP ANNOUNCEMENT */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45 }}
+          className="group relative mb-12 overflow-hidden rounded-2xl border border-[#d7ff3f]/20 bg-[#0b0b0b]"
+        >
+          <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-[#d7ff3f] to-transparent" />
+
+          <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-[#d7ff3f]/[0.06] blur-[90px]" />
+
+          <div className="relative grid gap-8 p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center md:p-10">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.06] px-3 py-1.5">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d7ff3f]" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
+                  Tournament Announcement
+                </span>
+              </div>
+
+              <h2 className="text-3xl font-black uppercase leading-tight tracking-tight sm:text-4xl md:text-5xl">
+                Draw
+                <span className="ml-2 text-[#d7ff3f]">Group.</span>
+              </h2>
+
+              <p className="mt-3 max-w-lg text-sm leading-6 text-white/45">
+                Saksikan penentuan grup resmi Champions Tournament.
+                Informasi jadwal dan lokasi akan diumumkan segera.
+              </p>
+
+              <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.025] p-4">
+                  <CalendarDays className="mb-3 h-5 w-5 text-[#d7ff3f]" />
+                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">
+                    Hari / Tanggal
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-white">
+                    {drawGroup.day}, {drawGroup.date}
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.025] p-4">
+                  <Clock3 className="mb-3 h-5 w-5 text-[#d7ff3f]" />
+                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">
+                    Waktu
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-white">
+                    {drawGroup.time}
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-white/[0.08] bg-white/[0.025] p-4 sm:col-span-2 lg:col-span-1">
+                  <MapPin className="mb-3 h-5 w-5 text-[#d7ff3f]" />
+                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">
+                    Lokasi
+                  </p>
+                  <p className="mt-1 text-sm font-bold text-white">
+                    {drawGroup.location}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:pl-4">
+              <button
+                type="button"
+                onClick={() =>
+                  document
+                    .getElementById("tournament-schedule")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+                className="group/button flex w-full items-center justify-center gap-3 rounded-lg bg-[#d7ff3f] px-6 py-4 text-xs font-black uppercase tracking-[0.15em] text-black transition-colors hover:bg-white md:w-auto"
+              >
+                View Schedule
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/button:-translate-y-0.5 group-hover/button:translate-x-0.5" />
+              </button>
+
+              <p className="mt-3 text-center text-[10px] text-white/30 md:text-right">
+                Official details coming soon
+              </p>
+            </div>
+          </div>
+
+          <div className="h-px w-full bg-white/[0.05]" />
+        </motion.div>
+
+        {/* SCHEDULE TABS */}
+        <div id="tournament-schedule" className="mb-8 flex justify-center scroll-mt-8">
           <div className="flex rounded-full border border-white/10 bg-white/[0.04] p-1">
             <button
               type="button"
@@ -47,7 +148,7 @@ export default function SchedulePage() {
         </div>
 
         <AnimatePresence mode="wait">
-          {/* Group Stage */}
+          {/* GROUP STAGE */}
           {tab === "schedule" && (
             <motion.div
               key="schedule"
@@ -57,44 +158,20 @@ export default function SchedulePage() {
               transition={{ duration: 0.3 }}
             >
               <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#080808]">
-                {/* Decorative accent */}
                 <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-[#d7ff3f]/70 to-transparent" />
 
                 <div className="relative flex min-h-[360px] flex-col items-center justify-center px-6 py-16 text-center md:min-h-[420px]">
-                  {/* Decorative glow */}
                   <div className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d7ff3f]/[0.045] blur-[80px]" />
 
-                  {/* Calendar icon */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.45 }}
                     className="relative mb-7 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.06]"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="h-9 w-9 text-[#d7ff3f]"
-                      aria-hidden="true"
-                    >
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="16"
-                        rx="2"
-                      />
-                      <path d="M16 3v4M8 3v4M3 10h18" />
-                      <path d="M8 14h.01M12 14h.01M16 14h.01M8 17h.01M12 17h.01" />
-                    </svg>
+                    <CalendarDays className="h-9 w-9 text-[#d7ff3f]" />
                   </motion.div>
 
-                  {/* Status */}
                   <div className="relative mb-5 inline-flex items-center gap-2 rounded-full border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.06] px-3.5 py-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#d7ff3f]" />
                     <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
@@ -102,7 +179,6 @@ export default function SchedulePage() {
                     </span>
                   </div>
 
-                  {/* Main message */}
                   <motion.h2
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -125,7 +201,6 @@ export default function SchedulePage() {
                     jadwal resmi turnamen.
                   </motion.p>
 
-                  {/* Bottom accent */}
                   <div className="relative mt-8 flex items-center gap-3">
                     <span className="h-px w-8 bg-white/15" />
                     <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/30">
@@ -135,13 +210,12 @@ export default function SchedulePage() {
                   </div>
                 </div>
 
-                {/* Bottom border accent */}
                 <div className="h-px w-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
               </div>
             </motion.div>
           )}
 
-          {/* Playoff */}
+          {/* PLAYOFF */}
           {tab === "playoff" && (
             <motion.div
               key="playoff"
@@ -151,7 +225,6 @@ export default function SchedulePage() {
               transition={{ duration: 0.3 }}
               className="grid gap-6 md:grid-cols-3"
             >
-              {/* Quarter-finals */}
               <div className="space-y-4">
                 {[1, 2, 3, 4].map((match) => (
                   <div
@@ -161,7 +234,6 @@ export default function SchedulePage() {
                     <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
                       Quarter-final {match}
                     </span>
-
                     <div className="mt-4 text-sm font-semibold text-white/25">
                       TBD
                     </div>
@@ -169,7 +241,6 @@ export default function SchedulePage() {
                 ))}
               </div>
 
-              {/* Semi-finals */}
               <div className="flex flex-col justify-around gap-6">
                 {[1, 2].map((match) => (
                   <div
@@ -179,7 +250,6 @@ export default function SchedulePage() {
                     <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
                       Semi-final {match}
                     </span>
-
                     <div className="mt-4 text-sm font-semibold text-white/25">
                       TBD
                     </div>
@@ -187,13 +257,12 @@ export default function SchedulePage() {
                 ))}
               </div>
 
-              {/* Final */}
               <div className="flex items-center">
                 <div className="w-full rounded-xl border border-[#d7ff3f]/20 bg-[#d7ff3f]/[0.035] p-8 text-center">
+                  <Trophy className="mx-auto mb-4 h-6 w-6 text-[#d7ff3f]" />
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#d7ff3f]">
                     Grand Final
                   </span>
-
                   <div className="mt-5 text-lg font-bold text-white/25">
                     TBD
                   </div>
